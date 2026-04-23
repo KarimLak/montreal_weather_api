@@ -22,6 +22,6 @@ class ForecastResponseDaily(BaseModel):
     max_temperature: float = Field(...)
 
 class ForecastResponseWeekly(BaseModel):
-    min_temperature: List[float] = Field(...)
-    max_temperature: List[float] = Field(...)
+    min_temperatures: List[float] = Field(...)
+    max_temperatures: List[float] = Field(...)
 

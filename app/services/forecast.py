@@ -20,8 +20,8 @@ class ForecastService:
         min_value = responses[0].Daily().Variables(0).ValuesAsNumpy().tolist()
         max_value = responses[0].Daily().Variables(1).ValuesAsNumpy().tolist()
         return ForecastResponseWeekly(
-            min_temperature = min_value,
-            max_temperature = max_value
+            min_temperatures = min_value,
+            max_temperatures = max_value
         )
         
 def get_forecast_service() -> ForecastService:
