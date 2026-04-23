@@ -18,24 +18,6 @@ class ForecastCreateWeekly(ForecastCreate):
     timezone: str = "auto"
 
 class ForecasteResponse(BaseModel):
-# --- Location & metadata ---
-    latitude: float
-    longitude: float
-    elevation: Optional[float] = None
-
-    generationtime_ms: float
-
-    timezone: str
-    timezone_abbreviation: str
-    utc_offset_seconds: int
-
-    # --- Hourly ---
-    hourly_units: Optional[Dict[str, str]] = None
-    hourly: Optional[Dict[str, List[Union[str, float, int]]]] = None
-
-    # --- Daily ---
-    daily_units: Optional[Dict[str, str]] = None
-    daily: Optional[Dict[str, List[Union[str, float, int]]]] = None
-
-
+    min_temperature: float = Field(...)
+    max_temperature: float = Field(...)
 

@@ -5,7 +5,7 @@ from app.services.forecast import ForecastService, get_forecast_service
 
 forecast_router = APIRouter()
 
-@forecast_router.post('/forecast/daily')
+@forecast_router.post('/forecast/daily', response_model=ForecasteResponse)
 def get_forecast(payload: ForecastCreateDaily, service: ForecastService = Depends(get_forecast_service)):
     return service.get_forecast_daily(payload)
 
