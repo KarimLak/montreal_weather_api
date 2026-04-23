@@ -34,13 +34,26 @@ class ForecastService:
         return result
     
     def get_forecast_weekly(self, payload: ForecastCreateWeekly) -> ForecastResponseWeekly:
+        cache_key = f"forecast:weekly:{payload.latitude}:{payload.longitude}"
+
+        cached = redis_client.get(cache_key)
+        if cached:
+            return ForecastResponseWeekly(**json.loads(cached))
+        
         responses = self.openmeteo.weather_api(self.url, params = payload.model_dump())
         min_value = responses[0].Daily().Variables(0).ValuesAsNumpy().tolist()
         max_value = responses[0].Daily().Variables(1).ValuesAsNumpy().tolist()
-        return ForecastResponseWeekly(
+        result = ForecastResponseWeekly(
             min_temperatures = min_value,
             max_temperatures = max_value
         )
+        redis_client.setex(
+                    cache_key,
+                    60 * 60,  # 1 hour
+                    json.dumps(result.model_dump()),
+                )
+
+        return result
         
 def get_forecast_service() -> ForecastService:
     return ForecastService()
