@@ -12,12 +12,16 @@ class ForecastCreateDaily(ForecastCreate):
     timezone: str = "auto"
 
 class ForecastCreateWeekly(ForecastCreate):
-    daily: List[str] = ["temperature_2m"]
+    daily: List[str] = ["temperature_2m_min", "temperature_2m_max"]
     past_days: int = 0
     forecast_days: int = 7
     timezone: str = "auto"
 
-class ForecasteResponse(BaseModel):
+class ForecastResponseDaily(BaseModel):
     min_temperature: float = Field(...)
     max_temperature: float = Field(...)
+
+class ForecastResponseWeekly(BaseModel):
+    min_temperature: List[float] = Field(...)
+    max_temperature: List[float] = Field(...)
 
