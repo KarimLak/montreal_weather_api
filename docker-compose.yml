@@ -1,3 +1,5 @@
+include:
+  - path: /infra.yml
 services:
   app:
     build: .
@@ -9,12 +11,10 @@ services:
     depends_on:
       redis:
         condition: service_healthy
-  redis:
-    image: redis:alpine
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      timeout: 3s
-      retries: 5
-      start_period: 10s
-
+    develop:
+      watch:
+        - action: sync+restart
+          path: .
+          target: /montreal_weather_api
+        - action: rebuild
+          path: requirements.txt
